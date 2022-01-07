@@ -3,11 +3,28 @@ import Cookies from 'universal-cookie';
 import axios from 'axios';
 import signImage from '../assets/signup.jpg';
 
+
+const cookies = new Cookies();
+
 const Auth = () => {
+
+    const initialState = {
+        fullName: '',
+        userName: '',
+        password: '',
+        confirmPassword: '',
+        phoneNumber: '',
+        avatarURL: '',
+        
+
+    }
+
+    const [form, setForm] = useState(initialState);
 
     const [isSignup, setIsSignup] = useState(true);
 
-    const handleChange = () => {
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
 
     }
 
@@ -15,12 +32,38 @@ const Auth = () => {
         setIsSignup((prevIsSignup) => !prevIsSignup)
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        const {  userName, password, avatarURL, phoneNumber } = form;
+       
+        const URL = 'https://slack-clone-by-keyur.herokuapp.com/auth';
+
+        const { data: { token, userId, hashedPassword, fullName } } = await axios.post(`${URL}/${isSignup ? 'signup' : 'login'} `, {
+            userName, password, fullName:form.fullName, avatarURL, phoneNumber,
+        });
+
+        cookies.set('token', token);
+        cookies.set('userName', userName);
+        cookies.set('fullName', fullName);
+        cookies.set('userId', userId);
+
+        if (isSignup) {
+            cookies.set('phoneNumber', phoneNumber);
+            cookies.set('avatarURL', avatarURL);
+            cookies.set('hashedPassword', hashedPassword);
+
+        }
+        window.location.reload();
+        // console.log(form)
+    }
+
     return (
         <div className = "auth__form-container">
             <div className="auth__form-container_fields">
                 <div className="auth__form-container_fields-content">
                     <p>{isSignup ? 'SignUp' : 'SignIn'}</p>
-                    <form onSubmit={() => { }}>
+                    <form onSubmit={handleSubmit}>
                         
                         {isSignup && (
                             <div className="auth__form-container_fields-content_input">
@@ -95,6 +138,10 @@ const Auth = () => {
                                 />
                             </div>
                         )}
+
+                        <div className="auth__form-container_fields-content_button">
+                            <button > {isSignup ? "Sign Up" : "Sign In" }</button>
+                        </div>
                     </form>
 
                     <div className="auth__form-container_fields-account">

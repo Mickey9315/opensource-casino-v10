@@ -942,11 +942,13 @@
   
   .team-channel-list__message {
     color: #ffffff;
+
     padding: 0 16px;
   }
   
   .team-channel-list__message.loading {
     height: 115px;
+     /* color: #ffffff; */
   }
   
   .team-channel-list__header {
@@ -1823,4 +1825,11 @@
     .channel-list__sidebar {
       display: none;
     }
+  }
+
+
+
+
+  *{
+    color: black
   }
