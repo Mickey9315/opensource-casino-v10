@@ -18,10 +18,6 @@ build clone of Slack using ReactJs, NodeJS , Express,  CSS,  gstrm.io as a part 
 * Reply in Thread
 
 
-# Website flow
-
-
-  * Login and Signup
 
   
 
