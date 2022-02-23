@@ -37,7 +37,8 @@ const Auth = () => {
         
         const {  userName, password, avatarURL, phoneNumber } = form;
        
-        const URL = 'https://slack-clone-by-keyur.herokuapp.com/auth';
+        // const URL = 'https://slack-clone-by-keyur.herokuapp.com/auth';
+        const URL = 'https://localhost/5000/auth';
 
         const { data: { token, userId, hashedPassword, fullName } } = await axios.post(`${URL}/${isSignup ? 'signup' : 'login'} `, {
             userName, password, fullName:form.fullName, avatarURL, phoneNumber,
